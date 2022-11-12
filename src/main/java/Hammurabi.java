@@ -59,31 +59,42 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
     }
 
     public Hammurabi() {
-
+        this.landValue = 19;
+        this.bushelsOwned = 2800;
+        this.population = 100;
+        this.acresOwned = 1000;
     }
 
-    public int askHowManyAcresToBuy(int price, int bushels){
-        int toalPrice = bushels*price;
-        if (toalPrice<this.bushelsOwned){
-            this.bushelsOwned -= bushels;
-            this.acresOwned += bushels/price;
-            this.priceOfBushels = price;
+    public int askHowManyAcresToBuy(int price, int acresWantToBuy){
+        int total=acresWantToBuy*price;  //Total Bushels needed to buy land
+        if (total<this.bushelsOwned){
+            this.bushelsOwned -= total;    //He paid bushels to purchase
+            this.acresOwned += acresWantToBuy;  //Increase the acres as Player bought more Acres
+            this.priceOfBushels = price;   //Random price generated each year
         }
-        return bushels/price;
+        return acresOwned;
     }
 
     public int askHowManyAcresToSell(int acresOwned){
         if(acresOwned < this.acresOwned){
-            this.acresOwned -= acresOwned;
-            this.bushelsOwned += acresOwned*priceOfBushels;
+            this.acresOwned -= acresOwned; //Player sold the land
+            this.bushelsOwned += acresOwned*priceOfBushels; //Get bushels as currency for selling land
         }
-        return acresOwned;
+        return this.acresOwned;
     }
     public int askHowMuchGrainToFeedPeople(int bushels){
-        return bushels;
+        int fedPopulation=bushels/20;//Each person needs at least 20 bushels of grain per year to survive
+        if(bushels<this.bushelsOwned) this.bushelsOwned-=bushels;
+        return fedPopulation;
     }
 
     public int askHowManyAcresToPlant(int acresOwned, int population, int bushels){
+        //Check the player has enough acres to harvest
+        //Chcek enough persons are there(Each person can farm at most 10 acres of land)
+        //Check bushels(It takes 2 bushels of grain to farm an acre of land)
+        if(this.acresOwned>acresOwned && (this.population*10)>population && (this.bushelsOwned/2)>bushels){
+           this.bushelsOwned-=bushels/2;
+        }
         return acresOwned;
     }
 
