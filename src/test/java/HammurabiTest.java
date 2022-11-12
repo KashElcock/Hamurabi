@@ -4,6 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class HammurabiTest {
     
     Hammurabi ham;
@@ -121,10 +126,38 @@ public class HammurabiTest {
     }
     @Test
     public final void testAskHowManyAcresToBuy() {
-        int price = 10, bushels = 40;
+        int price = 10, acresToBuy = 2;
         Hammurabi obj = new Hammurabi();
-        int actual = obj.askHowManyAcresToBuy(price,bushels);
-        int expected = 4;
+        int actual = obj.askHowManyAcresToBuy(price,acresToBuy);
+        int expected = 1002;
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public final void testaskHowManyAcresToSell(){
+        int acresOwned=2;
+        Hammurabi obj = new Hammurabi();
+        int actual = obj.askHowManyAcresToSell(acresOwned);
+        int expected = 998;
+       Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public final void testHowMuchGrainToFeedPeople(){
+        int bushels = 40;
+        Hammurabi obj = new Hammurabi();
+        int actual = obj.askHowMuchGrainToFeedPeople(bushels);
+        int expected =2;
+        Assert.assertEquals(actual,expected);
+    }
+    @Test
+    public void testaskHowManyAcresToPlant(){
+        int acresOwned=2,  population,  bushels;
+        Hammurabi obj = new Hammurabi();
+        population=obj.getPopulation();
+        bushels=obj.getbushelsOwned();
+       // System.out.println(population);
+       // System.out.println(bushels);
+        int actual = obj.askHowManyAcresToPlant(acresOwned,population,bushels);
+        int expected=2;
         Assert.assertEquals(actual,expected);
     }
 
