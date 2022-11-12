@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -117,6 +118,14 @@ public class HammurabiTest {
         for (int j = 17; j <= 23; j++) {
             assertTrue("You never have a land cost of " + j + " bushels per acre.", cost[j] > 0);
         }
+    }
+    @Test
+    public final void testAskHowManyAcresToBuy() {
+        int price = 10, bushels = 40;
+        Hammurabi obj = new Hammurabi();
+        int actual = obj.askHowManyAcresToBuy(price,bushels);
+        int expected = 4;
+        Assert.assertEquals(actual,expected);
     }
 
 }
