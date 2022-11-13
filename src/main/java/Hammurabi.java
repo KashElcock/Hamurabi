@@ -1,71 +1,140 @@
-   // package declaration
-import java.util.Objects;
-import java.util.Random;         // imports go here
+import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
-public class Hammurabi {         // must save in a file named Hammurabi.java
+public class Hammurabi { //Hammurabi Class
 
+    // Object Fields
     private int priceOfBushels;
     private int landValue;
     private int bushelsOwned;
     private int population;
     private int acresOwned;
-    static Random rand = new Random();
 
-    public int getPriceOfBushels() {
-        return priceOfBushels;
+
+    // ALL METHODS
+
+        //Main method to run new game
+    public static void main(String[] args) {
+        new Hammurabi().playGame();
     }
 
-    public void setPriceOfBushels(int priceOfBushels) {
-        this.priceOfBushels = priceOfBushels;
+        //Play Game Method
+    void playGame() {
+        int year = 0;
+        int starved = 0;
+        int priceOfLand = 19;  // declare local variables here: grain, population, etc.// statements go after the declations
+
+
+
+
+        String userName = getStringInput("Hello welcome to a new game of Hammurabi, please enter your name to continue");
+
+        while (year < 10 && starved < 45  ) { //happy kingdom check && (newGame.getbushelsOwned() > (newGame.getPopulation()*20) )
+
+            year = year + 1;
+            int userInput = getIntegerInput("HELLO " + userName + "!\n" +
+                    "    You are in year "+ year +" of your ten year rule.\n" +
+                    "    In the previous year 0 people starved to death.\n" +
+                    "    In the previous year 5 people entered the kingdom.\n" +
+                    "    The population is now 100.\n" +
+                    "    We harvested 3000 bushels at 3 bushels per acre.\n" +
+                    "    Rats destroyed 200 bushels, leaving 2800 bushels in storage.\n" +
+                    "    The city owns 1000 acres of land.\n" +
+                    "At the current price of " + priceOfLand + " bushels per acre, would you like to buy or sell land this year?");
+            //buy or sell this year?
+            if(userInput == 1 ){
+            } else if (userInput == 2) {
+            }
+            int buy = getIntegerInput("At the current price of " + priceOfLand + " bushels per acre, how many bushels worth of land would you like?");
+            askHowManyAcresToBuy(priceOfLand,buy);
+
+
+            priceOfLand = newCostOfLand();
+            //priceOfLand = (int) ((Math.random() * (50)) + 1 );
+        }
     }
 
+        // IO Methods
+    public static void print(String output, Object... args) {
+        System.out.printf(output, args);
+    }
+    public static void println(String output, Object... args) {
+        print(output + "\n", args);
+    }
+    public static String getStringInput(String prompt) {
+        Scanner scanner = null;
+        String userInput;
+        do
+            try {
+                scanner = new Scanner(System.in);
+                println(prompt);
+                userInput = String.valueOf(scanner.nextLine());
+                return userInput;
+            } catch (Exception e) {
+                System.out.println("Have you gone mad?! Please come to your senses!");
+                boolean error = true;
+            }
+        while (true);
+    }
+    public static Integer getIntegerInput(String prompt) {
+        Scanner scanner = null;
+        int userInput;
+        do
+            try {
+                scanner = new Scanner(System.in);
+                println(prompt);
+                userInput = Integer.parseInt(scanner.nextLine());
+                return userInput;
+            } catch (Exception e) {
+                System.out.println("Have you gone mad?! Please come to your senses!");
+                boolean error = true;
+            }
+        while (true);
+    }
+
+        //Setters and Getters
+    public void setPriceOfBushels(int priceOfBushels) {this.priceOfBushels = priceOfBushels;}
+    public int getPriceOfBushels() {return priceOfBushels;}
     public int getLandValue() {
         return landValue;
     }
-
     public void setLandValue(int landValue) {
         this.landValue = landValue;
     }
-
     public int getbushelsOwned() {
         return bushelsOwned;
     }
-
     public void setbushelsOwned(int bushelsOwned) {
         this.bushelsOwned = bushelsOwned;
     }
-
     public int getPopulation() {
         return population;
     }
-
     public void setPopulation(int population) {
         this.population = population;
     }
-
     public int getAcresOwned() {
         return acresOwned;
     }
-
     public void setAcresOwned(int acresOwned) {
         this.acresOwned = acresOwned;
     }
 
+        // GamePlay Methods
+    static Random rand = new Random();
     public Hammurabi(int landValue, int bushelsOwned, int population, int acresOwned) {
         this.landValue = landValue;
         this.bushelsOwned = bushelsOwned;
         this.population = population;
         this.acresOwned = acresOwned;
     }
-
     public Hammurabi() {
         this.landValue = 19;
         this.bushelsOwned = 2800;
         this.population = 100;
         this.acresOwned = 1000;
     }
-
     public int askHowManyAcresToBuy(int price, int acresWantToBuy){
         int total=acresWantToBuy*price;  //Total Bushels needed to buy land
         if (total<this.bushelsOwned){
@@ -75,7 +144,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         }
         return acresOwned;
     }
-
     public int askHowManyAcresToSell(int acresOwned){
         if(acresOwned < this.acresOwned){
             this.acresOwned -= acresOwned; //Player sold the land
@@ -88,7 +156,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         if(bushels<this.bushelsOwned) this.bushelsOwned-=bushels;
         return fedPopulation;
     }
-
     public int askHowManyAcresToPlant(int acresOwned, int population, int bushels){
         //Ask the player how many acres to plant with grain, and returns that number.
         //
@@ -110,12 +177,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         }
         return acresOwned;
     }
-
-    void playGame() {
-        // declare local variables here: grain, population, etc.
-        // statements go after the declations
-    }
-
     public int newCostOfLand() {//int newCostOfLand()
       //  The price of land is random, and ranges from 17 to 23 bushels per acre.
         //  Return the new price for the next set of decisions the player has to make.
@@ -123,7 +184,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         int newprice = rannum;
         return newprice;
     }
-
     public int plagueDeaths(int i) {
         int numberOfPlagueDeaths = 0;
         if(rand.nextInt(100) < 15){
@@ -132,7 +192,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
         return numberOfPlagueDeaths;
     }
-
     public int starvationDeaths(int i, int i1) {
         int busheslsNeededForPopulation =0;
         int numStarvationDeaths = 0;
@@ -151,7 +210,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
         return numStarvationDeaths;
     }
-
     public boolean uprising(int i, int i1) { //boolean uprising(int population, int howManyPeopleStarved)
 
         boolean upRising = false;
@@ -164,7 +222,6 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
         return upRising;
     }
-
     public int immigrants(int i, int i1, int i2) {  //int immigrants(int population, int acresOwned, int grainInStorage)
 
       int numOfImmigrants =   (20 * i1 + i2) / (100 * i) + 1;
@@ -172,14 +229,12 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
         return numOfImmigrants;
     }
-
     public int harvest(int i) { //int harvest(int acres, int bushelsUsedAsSeed)
         //Choose a random integer between 1 and 6, inclusive. Each acre that was planted with seed will yield this many bushels of grain.
       int ranNum =   rand.nextInt(6 - 1 + 1) + 1;
        int numBushellsharvested = i * ranNum;
         return numBushellsharvested;
     }
-
     public int grainEatenByRats(int i) { //int grainEatenByRats(int bushels)
         //There is a 40% chance that you will have a rat infestation.
         // When this happens, rats will eat somewhere between 10% and 30% of your grain. Return the amount of grain eaten by rats (possibly zero).
@@ -194,5 +249,4 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         return grainseatenbyrats;
     }
 
-    //other methods go here
-}
+} //Hammurabi Class Ends
