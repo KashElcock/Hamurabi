@@ -10,6 +10,9 @@ public class Hammurabi { //Hammurabi Class
     private int totalDeaths;
     private int percentDied;
     private int year;
+
+    private int fullPeople;
+
     private int immigrants;
     private int harvest;
     private int starved;
@@ -34,28 +37,28 @@ public class Hammurabi { //Hammurabi Class
 
         setUserName(getStringInput("Hello welcome to a new game of Hammurabi, please enter your name to continue"));
 
-        while (year < 10 && starved < 45){
+        while (year < 10 ){
             year = year + 1;
 
             //NEW YEAR SUMMARY
             int userInput = getIntegerInput("HELLO " + getUserName() + "!\n" +
                     "    Welcome to year "+ getYear() +" of your ten year rule.\n" +
-                    "    Last year: "+ getStarved() + " people starved to death.\n" +
-                    "               "+ getImmigrants() +" people entered the kingdom.\n" +
-                    "    This year: The population is now "+ getPopulation() +".\n" +
-                    "               We harvested "+ getHarvest() + " bushels.\n" +
-                    "               Rats destroyed "+ 0 +" bushels, leaving " + getbushelsOwned() + " bushels in storage.\n" +
-                    "               The city owns " + getAcresOwned() + " acres of land.\n" +
+                    "    Last year: "+ starvationDeaths(population,this.fullPeople) + " people starved to death.\n" +
+                    "               "+ immigrants(population,acresOwned,bushelsOwned) +" people entered the kingdom.\n" +
+                    "    This year: The population is now "+ this.population +".\n" +
+                  //  "               We harvested "+ getHarvest() + " bushels.\n" +
+                    "               Rats destroyed "+ grainEatenByRats(this.bushelsOwned) +" bushels, leaving " + this.bushelsOwned + " bushels in storage.\n" +
+                    "               The city owns " + this.acresOwned + " acres of land.\n" +
                     "At the current price of " + getPriceOfLand() + " bushels per acre, would you like to buy or sell land this year?" +
                     "\nTo Buy: Enter 1\nTo Sell: Enter 2\nPress any other key to skip");
 
             //BUY OR SELL LAND THIS YEAR?
             if(userInput == 1 ){
                 int buy = getIntegerInput("At the current price of " + priceOfLand + " bushels per acre, how many bushels worth of land would you like to buy?");
-                askHowManyAcresToBuy(priceOfLand,buy);
+                askHowManyAcresToBuy(this.priceOfBushels,buy);
             } else if (userInput == 2) {
                 int sell = getIntegerInput("At the current price of " + priceOfLand + " bushels per acre, how many bushels worth of land would you like to sell?");
-                askHowManyAcresToSell(acresOwned);
+                askHowManyAcresToSell(sell);
             } else {
                 System.out.println("Fine we'll do what we did last year");
             }
@@ -66,9 +69,10 @@ public class Hammurabi { //Hammurabi Class
 
             //PLANT GRAIN FOR NEXT YEAR
             int howManyAcresToPlant = getIntegerInput("How many acres to plant with grain?, We must have enough acres, enough grain, and enough people to do the planting. Any grain left over will go into storage for next year");
-
+            askHowManyAcresToPlant(howManyAcresToPlant,population,bushelsOwned);
             //END OF YEAR OPERATIONS
             setPriceOfLand(newCostOfLand());
+            //grainEatenByRats(this.bushelsOwned);
         }
 
         if(getYear() == 10) {
@@ -119,7 +123,13 @@ public class Hammurabi { //Hammurabi Class
 
 
         //Setters and Getters
+        public int getFullPeople() {
+            return fullPeople;
+        }
 
+    public void setFullPeople(int fullPeople) {
+        this.fullPeople = fullPeople;
+    }
     public int getbushelsOwned() {
         return bushelsOwned;
     }
@@ -229,6 +239,7 @@ public class Hammurabi { //Hammurabi Class
     public int askHowMuchGrainToFeedPeople(int bushels){
         int fedPopulation=bushels/20;//Each person needs at least 20 bushels of grain per year to survive
         if(bushels<this.bushelsOwned) this.bushelsOwned-=bushels;
+        this.fullPeople=fedPopulation;
         return fedPopulation;
     }
     public int askHowManyAcresToPlant(int acresOwned, int population, int bushels){
@@ -281,7 +292,7 @@ public class Hammurabi { //Hammurabi Class
         } else {
             numStarvationDeaths = extraBushells / 20;
         }
-
+        this.starved=numStarvationDeaths;
 
         return numStarvationDeaths;
     }
@@ -319,8 +330,7 @@ public class Hammurabi { //Hammurabi Class
             int rannum = rand.nextInt(30  - 10+1) + 10;
             grainseatenbyrats = i * rannum / 100;
         }
-
-
+        this.bushelsOwned-=grainseatenbyrats;
         return grainseatenbyrats;
     }
 
